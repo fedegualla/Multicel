@@ -1,0 +1,367 @@
+.historial-screen {
+  font-family: var(--font-ui);
+  background: var(--bg);
+  min-height: 100vh;
+  padding: 24px 28px;
+  color: var(--text);
+  box-sizing: border-box;
+}
+
+.historial-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.historial-header h1 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.historial-subtitulo {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.historial-header-acciones {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.historial-fecha {
+  padding: 8px 10px;
+  border: 1.5px solid var(--border);
+  border-radius: 7px;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  background: var(--surface);
+}
+
+.historial-boton-nueva-venta {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 7px;
+  background: var(--accent);
+  color: white;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.historial-boton-nueva-venta:hover {
+  background: var(--accent-hover);
+}
+
+.historial-resumen {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.historial-resumen-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  min-width: 140px;
+}
+
+.historial-resumen-item .label {
+  display: block;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.historial-resumen-item .valor {
+  font-family: var(--font-mono);
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.historial-lista {
+  max-width: 720px;
+}
+
+.historial-vacio {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 50px 20px;
+  font-size: 14px;
+}
+
+.historial-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+}
+
+.historial-item-clickeable {
+  cursor: pointer;
+  transition: border-color 0.12s, box-shadow 0.12s;
+}
+
+.historial-item-clickeable:hover {
+  border-color: var(--accent);
+  box-shadow: 0 1px 6px rgba(52, 84, 209, 0.1);
+}
+
+.historial-item-hora {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-muted);
+  width: 44px;
+  flex-shrink: 0;
+}
+
+.historial-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.historial-item-linea1 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+.historial-item-chip {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 5px;
+}
+
+.historial-item-chip-factura {
+  background: var(--accent-soft);
+  color: var(--accent-hover);
+}
+
+.historial-item-chip-pendiente {
+  background: var(--warning-soft);
+  color: var(--warning);
+}
+
+.historial-item-chip-rechazado {
+  background: var(--warning-soft);
+  color: var(--danger);
+}
+
+.historial-item-linea2 {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.historial-item-total {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+/* ---------- Modal de detalle de venta ---------- */
+
+.modal-fondo {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 23, 31, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 50;
+}
+
+.modal-detalle-venta {
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 24px;
+  max-width: 460px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  font-family: var(--font-ui);
+}
+
+.modal-detalle-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  gap: 10px;
+}
+
+.modal-detalle-header h3 {
+  margin: 0;
+  font-size: 17px;
+}
+
+.modal-detalle-subtitulo {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  margin-top: 3px;
+}
+
+.modal-detalle-cerrar {
+  background: var(--surface-alt);
+  border: none;
+  border-radius: 7px;
+  width: 28px;
+  height: 28px;
+  font-size: 17px;
+  color: var(--text-muted);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.modal-detalle-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.modal-detalle-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface-alt);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.modal-detalle-item-info {
+  min-width: 0;
+}
+
+.modal-detalle-item-nombre {
+  font-size: 13.5px;
+}
+
+.modal-detalle-item-marca {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.modal-detalle-item-detalle {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  margin-top: 2px;
+}
+
+.modal-detalle-item-devuelto {
+  color: var(--warning);
+}
+
+.modal-detalle-item-acciones {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.modal-detalle-item-acciones input {
+  width: 44px;
+  padding: 5px 6px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.modal-detalle-boton-devolver {
+  padding: 6px 10px;
+  border: 1.5px solid var(--warning);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--warning);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.modal-detalle-boton-devolver:hover:not(:disabled) {
+  background: var(--warning-soft);
+}
+
+.modal-detalle-boton-devolver:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.modal-detalle-item-completo {
+  font-size: 12px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.modal-detalle-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.modal-detalle-total .valor {
+  font-family: var(--font-mono);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* ---------- Modal flotante de "Nueva venta" ---------- */
+
+.modal-venta-fondo {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 23, 31, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 50;
+}
+
+.modal-venta-flotante {
+  width: min(1000px, 100%);
+  height: min(880px, 92vh);
+  background: var(--bg);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+/* Dentro del modal, la pantalla de venta llena el alto disponible en vez de
+   forzar 100vh (que es lo que necesita cuando es una página completa). */
+.modal-venta-flotante .venta-screen {
+  min-height: auto;
+  height: 100%;
+}
+
+.modal-venta-cerrar:hover {
+  background: var(--warning-soft);
+  color: var(--warning);
+}

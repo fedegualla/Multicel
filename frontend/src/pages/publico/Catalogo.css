@@ -1,0 +1,195 @@
+:root {
+  --bg: #F5F6FA;
+  --surface: #FFFFFF;
+  --surface-alt: #F0F2F7;
+  --text: #14171F;
+  --text-muted: #6B7280;
+  --border: #E3E6EE;
+  --accent: #3454D1;
+  --accent-hover: #2941AC;
+  --accent-soft: #EEF1FD;
+  --whatsapp: #1E7A4C;
+  --font-ui: 'Inter', system-ui, sans-serif;
+}
+
+.catalogo {
+  font-family: var(--font-ui);
+  background: var(--bg);
+  min-height: 100vh;
+  color: var(--text);
+}
+
+.catalogo-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 20px 20px 28px;
+}
+
+.catalogo-marca {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.catalogo-logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  background: var(--accent);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.catalogo-marca-nombre {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.catalogo-header h1 {
+  margin: 0 0 4px;
+  font-size: 22px;
+}
+
+.catalogo-header p {
+  margin: 0 0 20px;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.catalogo-buscador {
+  display: flex;
+  gap: 10px;
+  max-width: 480px;
+}
+
+.catalogo-buscador input {
+  flex: 1;
+  padding: 12px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+  background: var(--surface-alt);
+}
+
+.catalogo-buscador input:focus {
+  border-color: var(--accent);
+  background: var(--surface);
+}
+
+.catalogo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  padding: 24px 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.producto-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.producto-card-icono {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6px;
+}
+
+.producto-card-icono svg {
+  width: 17px;
+  height: 17px;
+}
+
+.producto-nombre {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.producto-detalle {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.producto-disponibilidad {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.producto-disponibilidad.si {
+  color: var(--whatsapp);
+}
+
+.producto-disponibilidad.no {
+  color: var(--text-muted);
+}
+
+.punto {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  display: inline-block;
+}
+
+.boton-whatsapp {
+  margin-top: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px;
+  background: var(--whatsapp);
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  transition: background 0.15s;
+}
+
+.boton-whatsapp:hover {
+  background: #17603a;
+}
+
+.catalogo-vacio {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 60px 20px;
+  grid-column: 1 / -1;
+}
+
+.whatsapp-flotante {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--whatsapp);
+  color: white;
+  border-radius: 50px;
+  padding: 14px 20px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+}
