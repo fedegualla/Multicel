@@ -11,6 +11,7 @@ import { catalogoRouter } from "./catalogo.js";
 import { mercadopagoRouter } from "./mercadopago.js";
 import { clientesRouter } from "./clientes.js";
 import { configuracionRouter } from "./configuracion.js";
+import { notasRouter } from "./notas.js";
 import { requiereAuth, requiereRol } from "../middleware/auth.js";
 
 export const apiRouter = Router();
@@ -28,6 +29,7 @@ apiRouter.use("/proveedores", requiereAuth, proveedoresRouter);
 apiRouter.use("/sucursales", requiereAuth, sucursalesRouter);
 apiRouter.use("/reparaciones", requiereAuth, reparacionesRouter);
 apiRouter.use("/caja", requiereAuth, cajaRouter);
+apiRouter.use("/notas", requiereAuth, notasRouter);
 apiRouter.use("/balance", requiereAuth, requiereRol("admin"), balanceRouter);
 
 // Próximos módulos a implementar en las siguientes iteraciones:

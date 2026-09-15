@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import QRCode from "qrcode";
 import { apiFetch, usuarioActual } from "../../api/client.js";
+import NotasPanel from "../../components/NotasPanel.jsx";
 import "./PantallaVenta.css";
 
 const SUCURSAL_OTRA_NOMBRE = "la otra sucursal";
@@ -445,165 +446,171 @@ export default function PantallaVenta({ onVentaRealizada, onCerrar } = {}) {
         </div>
       )}
 
-      <div className="venta-buscador">
-        <div className="venta-buscador-campo">
-          <IconoBuscar className="venta-buscador-icono" />
-          <input
-            ref={inputRef}
-            type="text"
-            placeholder="Escanear código o buscar producto..."
-            value={busqueda}
-            onChange={(e) => setBusqueda(e.target.value)}
-          />
-        </div>
-        {onCerrar && (
-          <button className="venta-buscador-cerrar" onClick={onCerrar} aria-label="Cerrar">×</button>
-        )}
-      </div>
+      <div className="venta-layout">
+        <div className="venta-principal">
+          <div className="venta-buscador">
+            <div className="venta-buscador-campo">
+              <IconoBuscar className="venta-buscador-icono" />
+              <input
+                ref={inputRef}
+                type="text"
+                placeholder="Escanear código o buscar producto..."
+                value={busqueda}
+                onChange={(e) => setBusqueda(e.target.value)}
+              />
+            </div>
+            {onCerrar && (
+              <button className="venta-buscador-cerrar" onClick={onCerrar} aria-label="Cerrar">×</button>
+            )}
+          </div>
 
-      {resultados.length > 0 && (
-        <div className="resultados">
-          {resultados.map((p) => {
-            const sinStockLocal = p.stock_propia <= 0;
-            const Icono = p.tipo === "equipo" ? IconoEquipo : IconoAccesorio;
-            return (
-              <div
-                key={p.id}
-                className={`resultado-item ${sinStockLocal ? "sin-stock-local" : ""}`}
-                onClick={() => agregarAlCarrito(p)}
-              >
-                <div className="resultado-item-icono">
-                  <Icono />
-                </div>
-                <div className="resultado-item-info">
-                  <div className="resultado-item-nombre">{p.nombre}</div>
-                  {marcaModelo(p) && <div className="resultado-item-marca">{marcaModelo(p)}</div>}
-                  {sinStockLocal && p.stock_otra > 0 && (
-                    <div className="etiqueta-otra-sucursal">
-                      Sin stock acá · Disponible en {SUCURSAL_OTRA_NOMBRE}
+          {resultados.length > 0 && (
+            <div className="resultados">
+              {resultados.map((p) => {
+                const sinStockLocal = p.stock_propia <= 0;
+                const Icono = p.tipo === "equipo" ? IconoEquipo : IconoAccesorio;
+                return (
+                  <div
+                    key={p.id}
+                    className={`resultado-item ${sinStockLocal ? "sin-stock-local" : ""}`}
+                    onClick={() => agregarAlCarrito(p)}
+                  >
+                    <div className="resultado-item-icono">
+                      <Icono />
                     </div>
-                  )}
-                  {sinStockLocal && p.stock_otra <= 0 && (
-                    <div className="etiqueta-sin-stock">Sin stock</div>
-                  )}
-                </div>
-                <div className="resultado-item-precios">
-                  <div className="precio-contado">
-                    ${precioContado(Number(p.precio_venta), descuentoPct).toLocaleString("es-AR", { maximumFractionDigits: 0 })}
-                    <span className="precio-etiqueta">contado</span>
+                    <div className="resultado-item-info">
+                      <div className="resultado-item-nombre">{p.nombre}</div>
+                      {marcaModelo(p) && <div className="resultado-item-marca">{marcaModelo(p)}</div>}
+                      {sinStockLocal && p.stock_otra > 0 && (
+                        <div className="etiqueta-otra-sucursal">
+                          Sin stock acá · Disponible en {SUCURSAL_OTRA_NOMBRE}
+                        </div>
+                      )}
+                      {sinStockLocal && p.stock_otra <= 0 && (
+                        <div className="etiqueta-sin-stock">Sin stock</div>
+                      )}
+                    </div>
+                    <div className="resultado-item-precios">
+                      <div className="precio-contado">
+                        ${precioContado(Number(p.precio_venta), descuentoPct).toLocaleString("es-AR", { maximumFractionDigits: 0 })}
+                        <span className="precio-etiqueta">contado</span>
+                      </div>
+                      <div className="precio-tarjeta">
+                        ${precioTarjeta(Number(p.precio_venta), p.recargo_porcentaje).toLocaleString("es-AR", { maximumFractionDigits: 0 })}
+                        <span className="precio-etiqueta">tarjeta</span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="precio-tarjeta">
-                    ${precioTarjeta(Number(p.precio_venta), p.recargo_porcentaje).toLocaleString("es-AR", { maximumFractionDigits: 0 })}
-                    <span className="precio-etiqueta">tarjeta</span>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      )}
+                );
+              })}
+            </div>
+          )}
 
-      <div className="carrito">
-        {carrito.length === 0 ? (
-          <div className="carrito-vacio">
-            <IconoBuscar className="carrito-vacio-icono" />
-            <span>Escaneá un producto para empezar la venta</span>
-          </div>
-        ) : (
-          carrito.map((item) => {
-            const precioLinea = precioLineaActual(item);
-            return (
-              <div className="carrito-item" key={item.imei_id ?? `acc-${item.producto_id}`}>
-                <div className="carrito-item-icono">
-                  {item.imei_id ? <IconoEquipo /> : <IconoAccesorio />}
-                </div>
-                <div className="carrito-item-info">
-                  <div className="carrito-item-nombre">{item.nombre}</div>
-                  {marcaModelo(item) && <div className="carrito-item-marca">{marcaModelo(item)}</div>}
-                  <div className="carrito-item-detalle">
-                    ${precioContadoLinea(item).toLocaleString("es-AR", { maximumFractionDigits: 0 })} contado
-                    {" · "}
-                    ${precioTarjetaLinea(item).toLocaleString("es-AR", { maximumFractionDigits: 0 })} tarjeta
-                    {item.recargo_porcentaje > 0 && (
-                      <span className="carrito-item-recargo-fijo"> (tarjeta ya incluye +{item.recargo_porcentaje}% del producto)</span>
+          <div className="carrito">
+            {carrito.length === 0 ? (
+              <div className="carrito-vacio">
+                <IconoBuscar className="carrito-vacio-icono" />
+                <span>Escaneá un producto para empezar la venta</span>
+              </div>
+            ) : (
+              carrito.map((item) => {
+                const precioLinea = precioLineaActual(item);
+                return (
+                  <div className="carrito-item" key={item.imei_id ?? `acc-${item.producto_id}`}>
+                    <div className="carrito-item-icono">
+                      {item.imei_id ? <IconoEquipo /> : <IconoAccesorio />}
+                    </div>
+                    <div className="carrito-item-info">
+                      <div className="carrito-item-nombre">{item.nombre}</div>
+                      {marcaModelo(item) && <div className="carrito-item-marca">{marcaModelo(item)}</div>}
+                      <div className="carrito-item-detalle">
+                        ${precioContadoLinea(item).toLocaleString("es-AR", { maximumFractionDigits: 0 })} contado
+                        {" · "}
+                        ${precioTarjetaLinea(item).toLocaleString("es-AR", { maximumFractionDigits: 0 })} tarjeta
+                        {item.recargo_porcentaje > 0 && (
+                          <span className="carrito-item-recargo-fijo"> (tarjeta ya incluye +{item.recargo_porcentaje}% del producto)</span>
+                        )}
+                      </div>
+                      <label className="carrito-item-recargo">
+                        Recargo manual
+                        <input
+                          type="number"
+                          min="0"
+                          max="200"
+                          placeholder="0"
+                          value={recargosManuales[claveItem(item)] ?? ""}
+                          onChange={(e) => actualizarRecargoManual(item, e.target.value)}
+                        />
+                        %
+                      </label>
+                    </div>
+                    {item.imei_id ? (
+                      <div className="carrito-item-cantidad-fija">1 un.</div>
+                    ) : (
+                      <div className="stepper">
+                        <button onClick={() => restarCantidad(item)} aria-label="Restar unidad">−</button>
+                        <span>{item.cantidad}</span>
+                        <button onClick={() => sumarCantidad(item)} aria-label="Sumar unidad">+</button>
+                      </div>
                     )}
+                    <div className="carrito-item-precio">
+                      ${(precioLinea * item.cantidad).toLocaleString("es-AR", { maximumFractionDigits: 0 })}
+                    </div>
+                    <button className="quitar-item" onClick={() => quitarDelCarrito(item)} aria-label="Quitar">
+                      ×
+                    </button>
                   </div>
-                  <label className="carrito-item-recargo">
-                    Recargo manual
-                    <input
-                      type="number"
-                      min="0"
-                      max="200"
-                      placeholder="0"
-                      value={recargosManuales[claveItem(item)] ?? ""}
-                      onChange={(e) => actualizarRecargoManual(item, e.target.value)}
-                    />
-                    %
-                  </label>
-                </div>
-                {item.imei_id ? (
-                  <div className="carrito-item-cantidad-fija">1 un.</div>
-                ) : (
-                  <div className="stepper">
-                    <button onClick={() => restarCantidad(item)} aria-label="Restar unidad">−</button>
-                    <span>{item.cantidad}</span>
-                    <button onClick={() => sumarCantidad(item)} aria-label="Sumar unidad">+</button>
-                  </div>
-                )}
-                <div className="carrito-item-precio">
-                  ${(precioLinea * item.cantidad).toLocaleString("es-AR", { maximumFractionDigits: 0 })}
-                </div>
-                <button className="quitar-item" onClick={() => quitarDelCarrito(item)} aria-label="Quitar">
-                  ×
-                </button>
-              </div>
-            );
-          })
-        )}
-      </div>
-
-      <div className="barra-total">
-        <div className="formas-pago-label">Forma de pago</div>
-        <div className="formas-pago">
-          {FORMAS_PAGO.map((fp) => (
-            <button
-              key={fp.id}
-              className={`forma-pago-btn ${formaPago === fp.id ? "activa" : ""}`}
-              onClick={() => setFormaPago(fp.id)}
-            >
-              <fp.icono className="forma-pago-icono" />
-              {fp.label}
-            </button>
-          ))}
-        </div>
-
-        {aplicaDescuento && subtotal > 0 && (
-          <div className="descuento-nota">
-            Descuento del {descuentoPct}% aplicado
+                );
+              })
+            )}
           </div>
-        )}
 
-        <label className="facturar-check">
-          <input
-            type="checkbox"
-            checked={facturar}
-            onChange={(e) => setFacturar(e.target.checked)}
-          />
-          Facturar esta venta
-        </label>
+          <div className="barra-total">
+            <div className="formas-pago-label">Forma de pago</div>
+            <div className="formas-pago">
+              {FORMAS_PAGO.map((fp) => (
+                <button
+                  key={fp.id}
+                  className={`forma-pago-btn ${formaPago === fp.id ? "activa" : ""}`}
+                  onClick={() => setFormaPago(fp.id)}
+                >
+                  <fp.icono className="forma-pago-icono" />
+                  {fp.label}
+                </button>
+              ))}
+            </div>
 
-        <div className="total-row">
-          <span className="total-label">Total</span>
-          <span className="total-valor">${total.toLocaleString("es-AR")}</span>
+            {aplicaDescuento && subtotal > 0 && (
+              <div className="descuento-nota">
+                Descuento del {descuentoPct}% aplicado
+              </div>
+            )}
+
+            <label className="facturar-check">
+              <input
+                type="checkbox"
+                checked={facturar}
+                onChange={(e) => setFacturar(e.target.checked)}
+              />
+              Facturar esta venta
+            </label>
+
+            <div className="total-row">
+              <span className="total-label">Total</span>
+              <span className="total-valor">${total.toLocaleString("es-AR")}</span>
+            </div>
+
+            <button
+              className="boton-cobrar"
+              disabled={carrito.length === 0 || cobrando}
+              onClick={abrirCobro}
+            >
+              {cobrando ? "Cobrando..." : "Cobrar"}
+            </button>
+          </div>
         </div>
 
-        <button
-          className="boton-cobrar"
-          disabled={carrito.length === 0 || cobrando}
-          onClick={abrirCobro}
-        >
-          {cobrando ? "Cobrando..." : "Cobrar"}
-        </button>
+        <NotasPanel />
       </div>
 
       {panelFacturacion && (

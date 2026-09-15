@@ -210,3 +210,16 @@ INSERT INTO configuracion (clave, valor) VALUES
   ('descuento_efectivo_transferencia', '10'),      -- % de descuento por pagar en efectivo/transferencia
   ('dias_aviso_reparacion_sin_retirar', '7'),       -- días para avisar reparación lista sin retirar
   ('whatsapp_numero', '5493400000000');             -- número para "Consultar por WhatsApp" del catálogo (editar en Admin)
+
+-- ---------- NOTAS / RECORDATORIOS ----------
+-- Esquelas de texto libre compartidas entre los vendedores de una misma
+-- sucursal (ej. avisos de turno), visibles en la pantalla de venta.
+CREATE TABLE notas (
+  id SERIAL PRIMARY KEY,
+  sucursal_id INTEGER NOT NULL REFERENCES sucursales(id),
+  usuario_id INTEGER NOT NULL REFERENCES usuarios(id),
+  texto TEXT NOT NULL,
+  creado_en TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX idx_notas_sucursal ON notas(sucursal_id, creado_en);
