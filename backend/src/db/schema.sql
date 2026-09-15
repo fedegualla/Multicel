@@ -208,4 +208,5 @@ CREATE TABLE configuracion (
 -- Config inicial sugerida
 INSERT INTO configuracion (clave, valor) VALUES
   ('descuento_efectivo_transferencia', '10'),      -- % de descuento por pagar en efectivo/transferencia
-  ('dias_aviso_reparacion_sin_retirar', '7');       -- días para avisar reparación lista sin retirar
+  ('dias_aviso_reparacion_sin_retirar', '7'),       -- días para avisar reparación lista sin retirar
+  ('whatsapp_numero', '5493400000000');             -- número para "Consultar por WhatsApp" del catálogo (editar en Admin)
